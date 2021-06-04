@@ -21,7 +21,8 @@ int main(){
 
     Window win = Window();
     // attempt to initialize OpenGL
-    if(glewInit != GLEW_OK){
+    glewExperimental = true;
+    if(glewInit() != GLEW_OK){
         perror("Unable to initialize GLEW.\n");
         return -1;
     }

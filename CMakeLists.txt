@@ -25,11 +25,11 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 find_package(GLFW REQUIRED)
 include_directories(${GLFW_INCLUDE_DIR})
-target_link_libraries(GLapp ${GLFW_LIBRARIES})
+target_link_libraries(CodeSample ${GLFW_LIBRARIES})
 
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
-target_link_libraries(GLapp ${GLEW_LIBRARIES})
+target_link_libraries(CodeSample ${GLEW_LIBRARIES})
 if (WIN32)
 	add_custom_command(TARGET CodeSample POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -41,7 +41,7 @@ include_directories(${GLM_INCLUDE_DIR})
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
-target_link_libraries(GLapp ${OPENGL_LIBRARIES})
+target_link_libraries(CodeSample ${OPENGL_LIBRARIES})
 
 # other libraries
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
