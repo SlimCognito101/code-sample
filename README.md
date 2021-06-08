@@ -3,6 +3,7 @@ Sample C++ application using OpenGL, demonstrating texture mapping and vector ma
 
 ## requirements
 - OpenGL version 4.1. 3.x versions are supported, but must change version in driver.cpp and test.cpp.
+- Must also change version string in object.frag and object.vert in data folder.
 - CMake version 2.8 or above.
 
 ## building and running
@@ -20,7 +21,6 @@ Sample C++ application using OpenGL, demonstrating texture mapping and vector ma
 - Change "src" to "test" in lines 12-14 in CMakeLists.txt and build.
 
 ## changelog
-- Created window class
-- Created driver to run application
-- Wrote tests for window initialization
-- tested and modified driver code
+- Added shader loading
+- Added shaders
+- Began updating test file, need to add objects
