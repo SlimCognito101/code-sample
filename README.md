@@ -23,4 +23,5 @@ Sample C++ application using OpenGL, demonstrating texture mapping and vector ma
 ## changelog
 - Added shader loading
 - Added shaders
-- Began updating test file, need to add objects
+- Began updating test file
+- Added object base class

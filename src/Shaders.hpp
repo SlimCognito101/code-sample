@@ -20,7 +20,7 @@ tess evaluation shader, geometry shader
 ids is a GLuint array of size num_file that will be filled with shader ids 
 returns false on error
 */
-bool LoadShaders(GLuint programID, int num_files, const char** file_names,
-                 GLuint* &ids);
+bool LoadShaders(GLuint programID, int num_files, const char **file_names,
+                 GLuint *ids);
 
 #endif

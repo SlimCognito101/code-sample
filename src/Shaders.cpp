@@ -7,8 +7,8 @@
 #include <sstream>
 #include "Shaders.hpp"
 
-bool LoadShaders(GLuint programID, int num_files, const char** file_names,
-                 GLuint* &ids){
+bool LoadShaders(GLuint programID, int num_files, const char **file_names,
+                 GLuint *ids){
     // create shaders
     // make sure we have at least vertex and fragment shader
     if(num_files < 2){
