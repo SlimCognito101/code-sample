@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "Window.hpp"
+#include "Scene.hpp"
 
 int main(){
     // attempt to initlalize GLFW
@@ -27,10 +28,15 @@ int main(){
         return -1;
     }
 
+    // initialize scene data
+    Scene this_scene = Scene(&win);
+
     // main loop. Render and check for events.
     while(!glfwWindowShouldClose(win.win)){
+        this_scene.Update();
         glfwPollEvents();
     }
 
+    glfwDestroyWindow(win.win);
     glfwTerminate();
 }

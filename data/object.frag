@@ -22,12 +22,12 @@ out vec4 color;
 
 void main(){
     vec3 N = normalize(normal);             // get surface normal
-    vec3 L = normalize(light_vector.xyz)    // direction of light
+    vec3 L = normalize(light_vector.xyz);   // direction of light
     float intensity = max(0., dot(N,L));    // diffuse lighting
-    intensity = min(1., intensity + light_vector.w) // add ambient
+    intensity = min(1., intensity + light_vector.w); // add ambient
 
     // color from texture and intensity
-    vec3 temp_color = intensity * texture(ColorTexture, texcoord).rgb;
+    vec3 temp_color = intensity * (texture(ColorTexture, texcoord).rgb);
 
     // color to return
     color = vec4(temp_color, 1);

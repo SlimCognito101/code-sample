@@ -45,7 +45,7 @@ bool LoadShaders(GLuint programID, int num_files, const char **file_names,
             ifs.close();
         }
         else{
-            perror("Failed to open shader file.");
+            perror("Failed to open shader file.\n");
             return false;
         }
     }
@@ -62,7 +62,7 @@ bool LoadShaders(GLuint programID, int num_files, const char **file_names,
         glGetShaderiv(ids[i], GL_COMPILE_STATUS, &res);
         glGetShaderiv(ids[i], GL_INFO_LOG_LENGTH, &info_log_len);
         if(info_log_len > 0){
-            perror("There was an error compiling a shader.");
+            perror("There was an error compiling a shader.\n");
             return false;
         }
     }
@@ -76,7 +76,7 @@ bool LoadShaders(GLuint programID, int num_files, const char **file_names,
     glGetProgramiv(programID, GL_LINK_STATUS, &res);
     glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &info_log_len);
     if(info_log_len > 0){
-        perror("There was an error attaching and linking shaders.");
+        perror("There was an error attaching and linking shaders.\n");
         return false;
     }
 

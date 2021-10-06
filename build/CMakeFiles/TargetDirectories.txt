@@ -1,0 +1,3 @@
+/home/colin/Documents/Coding/codeSample/code-sample/build/CMakeFiles/rebuild_cache.dir
+/home/colin/Documents/Coding/codeSample/code-sample/build/CMakeFiles/CodeSample.dir
+/home/colin/Documents/Coding/codeSample/code-sample/build/CMakeFiles/edit_cache.dir

@@ -2,82 +2,59 @@
 // file: Object.hpp
 // description: basic functionality used by every type of object.
 
-#include <fstream>
-#include <cstdio>
+#include <stdio.h>
 #include "Object.hpp"
 #include "Shaders.hpp"
+#include "image_loader.hpp"
 
-Object::Object(std::string filename){
+Object::Object(std::string filename, const char *fn){
     // relative path to data folder
     const std::string Datapath = "../data/";
-    // P6 denotes filetype is .ppm
-    const std::string PPM = "P6";
+    // P6 denotes filetype is .jpg
+    const std::string JPG = "JFIF";
     // combine datapath with filename
     std::string filepath = Datapath + filename;
 
-    // create buffer objects
-
     // load image file into texture if filename not empty
+
+    // width and height of image
     int width = 0;
     int height = 0;
-    glm::u8vec3* image;
+    unsigned char *image;
     if(!filename.empty()){
-        std::fstream ifs;
-
         // open file for reading
-        ifs.open(filepath, std::ifstream::in);
-        if(ifs.is_open()){
-            std::filebuf* inbuf = ifs.rdbuf();
-            // check that file is .ppm
-            if(inbuf->sbumpc() != PPM[0] || inbuf->sbumpc() != PPM[1]){
-                // seek to end of header
-                while(inbuf->sbumpc() != '\n'){
-                    // do nothing
-                }
-                // get size of file
-                long size = inbuf->in_avail();
-                // width and height are the same for a square image file
-                width = height = int(sqrt(size));
-                // check that size is a multiple of 3
-                if(size % 3 == 0){
-                    // read image
-                    image = new glm::u8vec3[size / 3];
-                    for(int i = 0; i < size; i+=3){
-                        image[i] = glm::u8vec3(inbuf->sbumpc(),
-                        inbuf->sbumpc(), inbuf->sbumpc());
-                    }
-                }
-                else{
-                    perror("Image file size mismatch.");
-                }
-            }
-            else{
-                perror("Wrong image file type. Please use .ppm.");
-            }
+        FILE *fp = fopen(filepath.c_str(), "rb");
+        if(fp != nullptr){
+            // load image
+            image = Image_Loader::Load_Image(fn, &width, &height);
             // close file
-            ifs.close();
+            fclose(fp);
         }
         else{
-            perror("Failed to open image file.");
+            perror("Failed to open image file.\n");
         }
     }
     // create default texture
     else{
-        width = 1;
-        height = 1;
-        image = new glm::u8vec3[width * height];
+        width = 4;
+        height = 4;
+        image = new unsigned char[width * height * 3];
         // fill with default values
-        image[0] = {255, 255, 255};
+        for(int i = 0; i < width * height * 3; i++){
+            image[i] = 255;
+        }
     }
 
     // bind image
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
     GL_RGB, GL_UNSIGNED_BYTE, image);
     glGenerateMipmap(GL_TEXTURE_2D);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-    GL_LINEAR_MIPMAP_LINEAR);
 
     // generate additional buffers
     glGenBuffers(NUM_BUFFERS, buffers);
@@ -95,6 +72,8 @@ Object::Object(std::string filename){
     shaderIDs[0] = glCreateShader(GL_VERTEX_SHADER);
     shaderIDs[1] = glCreateShader(GL_FRAGMENT_SHADER);
     programID = glCreateProgram();
+
+    Image_Loader::Free_Image(image);
 }
 
 Object::~Object(){
@@ -147,7 +126,7 @@ void Object::UpdateShaders(){
     glEnableVertexAttribArray(uvAttrib);
 }
 
-void Object::Draw(double current_time){
+void Object::Draw(GLuint sceneID){
     // use current program
     glUseProgram(programID);
 
@@ -157,6 +136,10 @@ void Object::Draw(double current_time){
     // bind texture to active
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
+    
+    // bind uniform buffers
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, sceneID);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 1, buffers[UNIFORM_BUFFER]);
 
     // draw triangles
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[INDEX_BUFFER]);

@@ -25,9 +25,9 @@ protected:
     } object;
 
     GLuint vert_array_ID;        // ID for vertex array object
-    std::vector<float> vert;     // vertex data
-    std::vector<float> norm;     // normal data
-    std::vector<float> uv;       // texture coordinates
+    std::vector<glm::vec3> vert; // vertex data
+    std::vector<glm::vec3> norm; // normal data
+    std::vector<glm::vec2> uv;   // texture coordinates
     std::vector<int> indices;    // indices to create triangles
 
     // buffers for our vectors
@@ -41,13 +41,13 @@ protected:
     GLuint programID; // ID for current program
 
 public:
-    // create object and map square .ppm image file to texture
-    Object(std::string filename = "");
+    // create object and map .jpg image file to texture
+    Object(std::string filename = "", const char *fn = "");
     // destroy object
     ~Object();
 
     // bind buffers
-    virtual void Draw(double current_time = glfwGetTime());
+    virtual void Draw(GLuint sceneID);
     
     // load and reload shaders
     virtual void UpdateShaders();

@@ -14,7 +14,7 @@ public:
     struct GLFWwindow* win; // GLFW window
     double width, height;   // window dimensions
 
-    Window(int w = 720, int h = 480);
+    Window(int w = 1280, int h = 720);
     ~Window();
 };
 
