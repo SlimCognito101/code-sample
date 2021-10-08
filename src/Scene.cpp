@@ -8,8 +8,24 @@
 #define F_PI 3.1415926f
 #endif
 
+// GLFW callbacks must use extern "C"
+extern "C" {
+    // called whenever the window size changes
+    void reshape(GLFWwindow *window, int width, int height) {
+        // save window dimensions
+        int w, h;
+        glfwGetFramebufferSize(window, &w, &h);
+
+        // viewport size matches window size
+        glViewport(0, 0, w, h);
+    }
+}
+
 Scene::Scene(Window *window){
     win = window;
+    win_events = win->win;
+
+    glfwSetWindowSizeCallback(win_events, reshape);
 
     // set initial viewpoint
     dist_from_origin = 34.8f;
@@ -21,6 +37,10 @@ Scene::Scene(Window *window){
     left_press = false;
     mouseX = mouseY = 0.f;
 
+    // window data
+    width = 1280;
+    height = 720;
+
     // prepare buffer for scene data
     glGenBuffers(1, &sceneID);
     glBindBuffer(GL_UNIFORM_BUFFER, sceneID);
@@ -31,13 +51,14 @@ Scene::Scene(Window *window){
 
     // ground object
     ground = new Plane(glm::vec3(1280, 405, 0), "Scene.jpg", "../data/Scene.jpg");
+    image = new Plane(glm::vec3(485, 385, 0.5), "Cover0.jpg", "../data/Cover0.jpg", glm::vec2(-375, 0));
 }
 
 void Scene::Update(double current_time){
-    // values for blue background
-    const float blue_r = 0.5;
-    const float blue_g = 0.6;
-    const float blue_b = 0.8;
+    // values for silver background
+    const float blue_r = 0.163;
+    const float blue_g = 0.166;
+    const float blue_b = 0.206;
     const float blue_a = 1.f;
 
     // get time since last update
@@ -66,6 +87,7 @@ void Scene::Update(double current_time){
 
     // draw objects in scene
     ground->Draw(sceneID);
+    image->Draw(sceneID);
 
     // display result of draw
     glfwSwapBuffers(win->win);

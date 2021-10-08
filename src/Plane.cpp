@@ -5,11 +5,14 @@
 #include <math.h>
 #include "Plane.hpp"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #ifndef F_PI
 #define F_PI 3.1415926f
 #endif
 
-Plane::Plane(glm::vec3 size, std::string filename, const char *fn) : Object(filename, fn){
+Plane::Plane(glm::vec3 size, std::string filename, const char *fn, glm::vec2 offset) : Object(filename, fn){
     const int Square = 4; // vertices in a square
 
     // build texture coordinate, normal, and vertex arrays
@@ -31,9 +34,11 @@ Plane::Plane(glm::vec3 size, std::string filename, const char *fn) : Object(file
         norm.push_back(norm_vert);
 
         // populate position
-        x = ((x - 0.5f) * size.x);
-        y = ((y - 0.5f) * size.y);
-        float z = 0.f;
+        x = ((x - 0.5f) * size.x + offset.x);
+        y = ((y - 0.5f) * size.y + offset.y);
+        float z = size.z;
+        size_x = x;
+        size_y = y;
         pos_vert = glm::vec3(x, y, z);
         vert.push_back(pos_vert);
     }

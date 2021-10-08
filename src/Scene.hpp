@@ -14,7 +14,8 @@
 
 class Scene{
 public:
-    Window *win; // window to check for events
+    Window *win;
+    struct GLFWwindow *win_events; // window to check for events
 
     // uniform data defining scene positiion and lighting
     // must match vec4 for shaders
@@ -25,12 +26,16 @@ public:
     } scene;
     GLuint sceneID;
 
+    // Window data
+    int width, height;
+
     // view properties
     float dist_from_origin;
     float pan, tilt;
     float pan_rate, tilt_rate;
 
     // event data
+    bool win_resize;        // window was resized
     bool left_press;        // left mouse button down
     double mouseX, mouseY;  // last known location of mouse
 
@@ -39,6 +44,7 @@ public:
 
     // objects in scene
     Plane *ground;
+    Plane *image;
 
     Scene(Window *window);
 
