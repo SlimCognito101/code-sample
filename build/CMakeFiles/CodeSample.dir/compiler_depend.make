@@ -763,7 +763,19 @@ CMakeFiles/CodeSample.dir/src/Plane.cpp.o: ../src/Plane.cpp \
   /usr/include/glm/integer.hpp \
   /usr/include/glm/detail/func_integer.inl \
   /usr/include/glm/detail/func_integer_simd.inl \
-  /usr/include/glm/simd/integer.h
+  /usr/include/glm/simd/integer.h \
+  /usr/include/glm/gtc/matrix_transform.hpp \
+  /usr/include/glm/ext/matrix_projection.hpp \
+  /usr/include/glm/gtc/constants.hpp \
+  /usr/include/glm/ext/scalar_constants.hpp \
+  /usr/include/glm/ext/scalar_constants.inl \
+  /usr/include/glm/gtc/constants.inl \
+  /usr/include/glm/ext/matrix_projection.inl \
+  /usr/include/glm/ext/matrix_clip_space.hpp \
+  /usr/include/glm/ext/matrix_clip_space.inl \
+  /usr/include/glm/ext/matrix_transform.hpp \
+  /usr/include/glm/ext/matrix_transform.inl \
+  /usr/include/glm/gtc/matrix_transform.inl
 
 CMakeFiles/CodeSample.dir/src/Scene.cpp.o: ../src/Scene.cpp \
   /usr/include/stdc-predef.h \
